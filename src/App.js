@@ -30,8 +30,8 @@ function App() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/create">Create</Nav.Link>
             <Nav.Link href="/read">Read</Nav.Link>
-            <Nav.Link href="/update">Update</Nav.Link>
-            <Nav.Link href="/delete">Delete</Nav.Link>
+            {/* <Nav.Link href="/update">Update</Nav.Link> */}
+            {/* <Nav.Link href="/delete">Delete</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>
@@ -40,7 +40,7 @@ function App() {
         <Route path='/' element ={<Contents></Contents>}></Route>
         <Route path='/create' element ={<Create></Create>}></Route>
         <Route path='/read' element ={<Read></Read>}></Route>
-        <Route path='/update' element ={<Update></Update>}></Route>
+        <Route path='/update/:id' element ={<Update></Update>}></Route>
         <Route path='/delete' element ={<Delete></Delete>}></Route>
       </Routes>
 

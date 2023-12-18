@@ -42,7 +42,7 @@ function Read() {
                     // callback function to handle a successful response, get data(all data from the body), but here just from birds
                     (response) => {
                         // set the fetched data to the state
-                        setData(response.data.myBirds)
+                        setData(response.data)
                     }
                 )
                 //error message in case of a failed request
