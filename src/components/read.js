@@ -54,12 +54,31 @@ function Read() {
                 );
         }, [] // the empty dependency array ensures that this effect runs once on component mount
     );
+
+    // Function to reload data by making another GET request
+    const ReloadData = (e) => {
+        axios.get('http://localhost:4000/api/birds')
+            .then(
+                // Callback function to handle successful response
+                (response) => {
+                    // Update the state with the re-fetched data
+                    setData(response.data)
+                }
+            )
+            .catch(
+                // Error handling for failed requests
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
     return (
-        // JSX rendering
+        // Render the component with the fetched data and reload function
         <div>
             <h2>Birds!</h2>
             {/*show the Birds component and pass the bird data as a prop named "myBirds"*/}
-            <Birds myBirds={data}></Birds>
+            <Birds myBirds={data} Reload={ReloadData}></Birds>
         </div>
     );
 }

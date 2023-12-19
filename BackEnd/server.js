@@ -1,3 +1,4 @@
+// Import required modules
 const express = require('express')
 const app = express()
 const port = 4000;
@@ -19,9 +20,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// getting-started.js
+// Connect to MongoDB
 const mongoose = require('mongoose');
-
+// Call the main function to connect to MongoDB
 main().catch(err => console.log(err));
 
 async function main() {
@@ -38,6 +39,15 @@ const birdSchema = new mongoose.Schema({
     
 // Create a model based on the bird schema 
 const birdModel = mongoose.model(`my_birds`, birdSchema)
+
+// Handle DELETE request to delete a bird by ID
+app.delete('/api/bird/:id', async (req, res) => {
+    console.log("Delete: " + req.params.id)
+
+    // Find and delete the bird by ID
+    let bird = await birdModel.findByIdAndDelete(req.params.id);
+    res.send(bird);
+})
 
 // Updating existing data using id
 app.put('/api/bird/:id', async (req,res)=>{

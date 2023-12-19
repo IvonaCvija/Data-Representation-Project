@@ -5,7 +5,7 @@ function Birds(props){
 
     return props.myBirds.map(
         (bird)=>{
-            return <BirdObjects myBirds={bird}  key={bird._id}></BirdObjects>
+            return <BirdObjects myBirds={bird}  key={bird._id} reload={() => { props.Reload(); }}></BirdObjects>
             //show the BirdObjects component for each bird from "myBirds" array
             //pass the "bird" object as a prop to the BirdObjects component
             //use the "isbn" property of the BirdObjects component as the key
