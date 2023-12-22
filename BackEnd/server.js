@@ -33,8 +33,10 @@ async function main() {
 // Bird schema definition
 const birdSchema = new mongoose.Schema({
     name:String,
+    latinName:String,
     picture:String,
-    habitat:String
+    type:String,
+    sighting:String
 })
     
 // Create a model based on the bird schema 
@@ -55,28 +57,25 @@ app.put('/api/bird/:id', async (req,res)=>{
     console.log("Update: "+req.params.id);
 
     //await so it changes it only after finding the bird
-    let bird = await birdModel.findByIdAndEdit(req.params.id, req.body, {new:true});
+    let bird = await birdModel.findByIdAndUpdate(req.params.id, req.body, {new:true});
     res.send(bird);
 })
 
-// Create a new bird
+// Add a new bird
 app.post('/api/bird', (req, res) => {
     // Logging the received data to the console
-    console.log(req.body);
+    console.log(req.body.id);
     // Sending a response message
     // res.send("Data Received!");
     birdModel.create({
         name:req.body.name,
+        latinName:req.body.latinName,
         picture:req.body.picture,
-        habitat:req.body.habitat
+        type:req.body.type,
+        sighting:req.body.sighting
     })
-    .then(() =>{res.send("Bird created")})
-    .catch(() =>{res.send("Bird not created")})
-})
-
-// Handling a GET request to the root path '/'
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+    .then(() =>{res.send("Bird added")})
+    .catch(() =>{res.send("Bird not added")})
 })
 
 app.get(`/api/bird/:id`, async (req, res)=>{
@@ -92,14 +91,7 @@ app.get('/api/birds', async (req, res) => {
     let birds = await birdModel.find({});
     res.json(birds);
     // Mock data for birds
-    // const birds = [
-    //     {
-    //         "name": "Seagull",
-    //         "picture":
-    //             "https://th.bing.com/th/id/R.86b8daa7a9ae1262c9aca88f5945fe92?rik=hII5%2fX2ACisazA&riu=http%3a%2f%2fwww.southdublinbirds.com%2freports%2fassets18%2fgalway%2fgalway3_lg.jpg&ehk=k85ghdat%2fFYjDjf9iBHGYf%2bXa%2f%2b5Gf8FgLajf7%2bwX3o%3d&risl=&pid=ImgRaw&r=0",
-    //         "habitat": "Europe",
-    //         "migration": "No"
-    //     },
+    
     //     {
     //         "name": "Whooper Swan",
     //         "picture":
@@ -116,12 +108,6 @@ app.get('/api/birds', async (req, res) => {
     //     }
     // ]
 
-    // Respond with JSON data
-    // res.json({
-    //     myBirds: birds,
-    //     "Message": "Some Information",
-    //     "Disclaimer": "Hello World"
-    // })
 })
 
 // Start the Express app and listen on the specified port

@@ -3,18 +3,23 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { Button } from 'react-bootstrap';
+
 export default function Edit(props) {
     // The useParams hook returns an object of key/value pairs of
     // the dynamic params from the current URL that were matched by
     //the <Route path>.
     let { id } = useParams();
     // update arrays using the React useState()
-    // and without the Array objects push() method
     const [name, setName] = useState("");
+    const [latinName, setLatinName] = useState("");
     const [picture, setPicture] = useState("");
-    const [habitat, setHabitat] = useState("");
+    const [type, setType] = useState("");
+    const [sighting, setSighting] = useState("");
+
     // useNavigate return a function that we can use to navigate
     const navigate = useNavigate();
+
     //useEffect Hook is similar componentDidMount
     useEffect(
         () => {
@@ -25,8 +30,10 @@ export default function Edit(props) {
                 .then((response) => {
                     // Assign Response data to the arrays using useState.
                     setName(response.data.name);
+                    setLatinName(response.data.latinName);
                     setPicture(response.data.picture);
-                    setHabitat(response.data.habitat);
+                    setType(response.data.type);
+                    setSighting(response.data.sighting)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -38,18 +45,21 @@ export default function Edit(props) {
         const newBird = {
             id: id,
             name: name,
+            latinName: latinName,
             picture: picture,
-            habitat: habitat
+            type: type,
+            sighting: sighting
+
         };
         //passing it up to server
         axios.put('http://localhost:4000/api/bird/' + id, newBird)
             .then((res) => {
                 console.log(res.data);
-                navigate('/read');
+                navigate('/birdList');
             });
     }
     return (
-        <div>
+        <div style={{ backgroundColor: '#001f3f', padding: '20px', color: 'white' }}>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Add bird's name: </label>
@@ -57,6 +67,14 @@ export default function Edit(props) {
                         className="form-control"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Add bird's latin name: </label>
+                    <input type="text"
+                        className="form-control"
+                        value={latinName}
+                        onChange={(e) => setLatinName(e.target.value)}
                     />
                 </div>
                 <div className="form-group">
@@ -68,15 +86,26 @@ export default function Edit(props) {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Add bird's habitat: </label>
+                    <label>Add bird's type: </label>
                     <input type="text"
                         className="form-control"
-                        value={habitat}
-                        onChange={(e) => setHabitat(e.target.value)}
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
                     />
                 </div>
                 <div className="form-group">
-                    <input type="submit" value="Update Bird" className="btn btn-primary" />
+                    <label>Did you see the bird now? </label>
+                    <input type="text"
+                        className="form-control"
+                        value={sighting}
+                        onChange={(e) => setSighting(e.target.value)}
+                    />
+                </div>
+                <br></br>
+                <div className="form-group">
+                    <Button variant="warning" type="submit" className="btn-sm rounded-pill">
+                        Update Bird
+                    </Button>
                 </div>
             </form>
         </div>
