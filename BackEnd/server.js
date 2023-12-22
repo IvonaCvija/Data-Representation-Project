@@ -90,24 +90,6 @@ app.get('/api/birds', async (req, res) => {
 
     let birds = await birdModel.find({});
     res.json(birds);
-    // Mock data for birds
-    
-    //     {
-    //         "name": "Whooper Swan",
-    //         "picture":
-    //             "https://www.vdio.com/wp-content/uploads/2017/03/Whooper-swan-pics-1024x755.jpg",
-    //         "habitat": "Europe",
-    //         "migration": "Yes"
-    //     },
-    //     {
-    //         "name": "Starling",
-    //         "picture":
-    //             "https://birdwatchireland.ie/app/uploads/2019/01/Starling-P08-Michael-Finn-600x400.jpg",
-    //         "habitat": "Galway",
-    //         "migration": "No"
-    //     }
-    // ]
-
 })
 
 // Start the Express app and listen on the specified port
